@@ -14,16 +14,40 @@ namespace SomeUI
     {
         static void Main(string[] args)
         {
-            InsertSamurai();
-
+            //InsertSamurai();
+            //InsertMultipleSamurai();
+            SimpleSamuraiQuery();
 
             Console.ReadKey();
+        }
+
+        private static void SimpleSamuraiQuery()
+        {
+            using (var context = new SamuraiContext())
+            {
+                var samurais = context.Samurais.ToList();
+
+            }
+        }
+
+        private static void InsertMultipleSamurai()
+        {
+            var samurai1 = new Samurai { Name = "Herb1" };
+            var samurai2 = new Samurai { Name = "Herb2" };
+            var samurai3 = new Samurai { Name = "Herb3" };
+
+            using (var context = new SamuraiContext())
+            {
+                context.Samurais.AddRange(samurai1,samurai2, samurai3);
+                context.SaveChanges();
+            }
         }
 
         private static void InsertSamurai()
         {
             
             var samurai = new Samurai {Name = "Herb"};
+
             using (var context = new SamuraiContext())
             {
 
@@ -39,6 +63,7 @@ namespace SomeUI
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
+                        transaction.Rollback();
                         
                     }
                 }
