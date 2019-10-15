@@ -12,13 +12,31 @@ namespace SomeUI
 {
     class Program
     {
+        private static  SamuraiContext _context = new SamuraiContext();
         static void Main(string[] args)
         {
             //InsertSamurai();
             //InsertMultipleSamurai();
-            SimpleSamuraiQuery();
+            //SimpleSamuraiQuery();
+            //MoreQueries();
+            RetrieveAndUpdateSamurai();
 
             Console.ReadKey();
+        }
+
+        private static void RetrieveAndUpdateSamurai()
+        {
+            var samurai = _context.Samurais.FirstOrDefault();
+            samurai.Name += " San";
+            _context.SaveChanges();
+        }
+
+        private static void MoreQueries()
+        {
+            var name = "Sampson";
+            //var samurais = _context.Samurais.FirstOrDefault(s => s.Name == name);
+            var samurais = _context.Samurais.Where(s => EF.Functions.Like(s.Name,"H%")).ToList();
+
         }
 
         private static void SimpleSamuraiQuery()
