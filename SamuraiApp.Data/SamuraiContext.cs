@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using SamuraiApp.Domain;
+using System.Configuration;
 
 namespace SamuraiApp.Data
 {
@@ -26,10 +27,10 @@ namespace SamuraiApp.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var connectionString = ConfigurationManager.ConnectionStrings["WPFDatabase"].ToString();
             optionsBuilder
                 .UseLoggerFactory(MyConsoleLoggerFactory)
-                .UseSqlServer(
-                "Server = (localdb)\\mssqllocaldb; Database=SamuraiAppData; Trusted_Connection = True; ");
+                .UseSqlServer(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
